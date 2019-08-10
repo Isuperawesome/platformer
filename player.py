@@ -12,26 +12,30 @@ class cube:
         self.yvel = 0
         self.xvel = 0
         self.gravity = -10
-        # self.y = gamey - self.ydim
+        self.dy = 0
 
         self.states = ['GROUNDED',"AIRBRONE"]
         # self.currentstate = 'GROUNDED'
         self.currentstate = 'AIRBORNE'
         
+    def get_next_dy(self,dt):
+        return (self.yvel+self.gravity)*dt
     
     def update(self, dt):
  
         if self.currentstate == 'AIRBORNE':
             self.yvel = self.yvel + self.gravity
-            dy = self.yvel*dt
-            self.y -= dy
-
+            self.dy = self.yvel*dt
+            self.y -= self.dy
 
         # grounding 
         if self.y + self.ydim > self.gamey:
-            self.y = self.gamey - self.ydim
-            self.yvel = 0
-            self.currentstate = 'GROUNDED'
+            self.ground_to(self.gamey)
+
+    def ground_to(self,ground):
+        self.y = ground - self.ydim
+        self.yvel = 0
+        self.currentstate = 'GROUNDED'
         
             
 
