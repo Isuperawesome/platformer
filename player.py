@@ -13,6 +13,8 @@ class cube:
         self.xvel = 0
         self.gravity = -10
         self.dy = 0
+        self.plat_bounds = []
+        self.on_ground = False
 
         self.states = ['GROUNDED',"AIRBRONE"]
         # self.currentstate = 'GROUNDED'
@@ -30,12 +32,14 @@ class cube:
 
         # grounding 
         if self.y + self.ydim > self.gamey:
-            self.ground_to(self.gamey)
+            self.ground_to((0,self.gamey,self.gamex,0),True)
 
-    def ground_to(self,ground):
-        self.y = ground - self.ydim
-        self.yvel = 0
+    def ground_to(self, rect,isGround):
         self.currentstate = 'GROUNDED'
+        self.yvel = 0
+        self.y = rect[1] - self.ydim
+        self.plat_bounds = [rect[0],rect[0]+rect[2]]
+        self.on_ground = isGround
         
             
 
