@@ -1,6 +1,7 @@
 import pygame
 
 class cube:
+
     def __init__(self, gamex, gamey):
         self.gamex = gamex
         self.gamey = gamey
@@ -40,11 +41,26 @@ class cube:
         self.y = rect[1] - self.ydim
         self.plat_bounds = [rect[0],rect[0]+rect[2]]
         self.on_ground = isGround
-        
-            
 
+    def keydown_handle(self, keydowns):
+        if keydowns[pygame.K_LEFT]:
+            if self.currentstate == "GROUNDED":
+                self.x -= 0.7
+            else:
+                self.x -= 1.1
+            if self.x < 0:
+                self.x = 0
+        if keydowns[pygame.K_RIGHT]:
+            if self.currentstate == "GROUNDED":
+                self.x += 0.7
+            else:
+                self.x += 1.1
+            if self.x + self.xdim > self.gamex:
+                self.x = self.gamex - self.xdim
+        if keydowns[pygame.K_UP]:
+            if self.currentstate == "GROUNDED":
+                self.currentstate = "AIRBORNE"
+                self.yvel = 1500
 
-    
-
-
-        
+    def draw(self, surface):
+        surface.blit(self.img,(self.x, self.y))

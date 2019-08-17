@@ -32,29 +32,10 @@ def main():
         if not isPause:
 
             # INPUTS                    
-            pressed = pygame.key.get_pressed()         
-            if pressed[pygame.K_LEFT]:
-                if cube.currentstate == 'GROUNDED':
-                    cube.x -= 0.7
-                else:
-                    cube.x -= 1.1
-                if cube.x < 0:
-                    cube.x = 0  
-            if pressed[pygame.K_RIGHT]:
-                if cube.currentstate == 'GROUNDED':
-                    cube.x += 0.7
-                else:
-                    cube.x += 1.1
-                if cube.x + cube.xdim > gamex:
-                    cube.x = gamex - cube.xdim
-            if pressed[pygame.K_UP]:
-                if cube.currentstate == 'GROUNDED':
-                    cube.currentstate = 'AIRBORNE'
-                    cube.yvel = 1500
-            
+            pressed = pygame.key.get_pressed()
+            cube.keydown_handle(pressed)
 
             # UPDATES
-
 
             cube.update(dt)
 
@@ -86,13 +67,11 @@ def main():
         # DRAWING
 
         screen.fill(bgcolor)
-
-        for platform in logs.rectangles:
-            pygame.draw.rect(screen, (119,92,44),platform)
-        screen.blit(cube.img, (cube.x, cube.y))
+       
+        logs.draw(screen)
+        cube.draw(screen)
 
         pygame.display.flip()
 
-    
 if __name__=="__main__":
     main()
